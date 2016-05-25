@@ -19,6 +19,18 @@ class Nouislider extends React.Component {
     this.slider.destroy();
   }
 
+  onFocus(slider, handle) {
+    var handles = slider.target.querySelectorAll('.noUi-handle');
+    handles[handle].addEventListener('keydown', (event) =>
+      this.props.onKeyDown(slider, handle, event), false);
+    handles[handle].addEventListener('blur', () => this.removeListeners(handles[handle]), false);
+  }
+
+  removeListeners(handle) {
+    handle.removeEventListener('keydown', this.props.onKeyDown);
+    handle.removeEventListener('blur', this.removeListeners);
+  }
+
   createSlider() {
     this.slider = nouislider.create(this.sliderContainer, {...this.props});
     this.slider.handles = this.slider.target.querySelectorAll('.noUi-handle');
@@ -30,29 +42,22 @@ class Nouislider extends React.Component {
     if (this.props.onChange) {
       this.slider.on('change', this.props.onChange);
     }
-    
+
     if (this.props.onSlide) {
       this.slider.on('slide', this.props.onSlide);
     }
 
     [].forEach.call(this.slider.handles, (handle, index) => {
-      if (this.props.tabIndex !== undefined) {
-        handle.setAttribute('tabindex', this.props.tabIndex);
+      handle.setAttribute('tabindex', this.props.tabIndex);
+      handle.addEventListener('focus', () => this.onFocus(this.slider, index));
 
-        if (this.props.onFocus) {
-          handle.addEventListener('focus', (event) => this.props.onFocus(this.slider, index));
-        }
-      }
-
-      if (this.props.tabIndex !== undefined) {
-        handle.addEventListener('click', (event) => {
-          event.target.focus();
-        });
-      }
+      handle.addEventListener('click', (event) => {
+        event.target.focus();
+      });
 
       handle.setAttribute('role', 'slider');
-      handle.setAttribute('aria-valuemin', this.props.range[0]);
-      handle.setAttribute('aria-valuemax', this.props.range[1]);
+      handle.setAttribute('aria-valuemin', this.props.range.min);
+      handle.setAttribute('aria-valuemax', this.props.range.max);
       handle.setAttribute('aria-valuenow', this.slider.get());
       if (this.props.ariaLabelledby) {
         this.slider.target.setAttribute('aria-labelledby', this.props.ariaLabelledby);
@@ -68,6 +73,7 @@ class Nouislider extends React.Component {
 Nouislider.propTypes = {
   // http://refreshless.com/nouislider/slider-options/#section-animate
   animate: React.PropTypes.bool,
+  ariaLabelledby: React.PropTypes.string,
   // http://refreshless.com/nouislider/behaviour-option/
   behaviour: React.PropTypes.string,
   // http://refreshless.com/nouislider/slider-options/#section-Connect
@@ -87,6 +93,8 @@ Nouislider.propTypes = {
   margin: React.PropTypes.number,
   // http://refreshless.com/nouislider/events-callbacks/#section-change
   onChange: React.PropTypes.func,
+  // https://refreshless.com/nouislider/examples/#section-keyboard
+  onKeyDown: React.PropTypes.func,
   // http://refreshless.com/nouislider/events-callbacks/#section-update
   onSlide: React.PropTypes.func,
   // http://refreshless.com/nouislider/events-callbacks/#section-slide
@@ -103,8 +111,6 @@ Nouislider.propTypes = {
   step: React.PropTypes.number,
   // https://refreshless.com/nouislider/examples/#section-keyboard
   tabIndex: React.PropTypes.number,
-  // https://refreshless.com/nouislider/examples/#section-keyboard
-  onKeyDown: React.PropTypes.func,
   // http://refreshless.com/nouislider/slider-options/#section-tooltips
   tooltips: React.PropTypes.oneOfType([
     React.PropTypes.bool,
@@ -114,6 +120,40 @@ Nouislider.propTypes = {
       })
     )
   ])
+};
+
+Nouislider.defaultProps = {
+  tabIndex: 0,
+  onKeyDown: (slider, handle, e) => {
+    var value = slider.get();
+    var newValue;
+
+    if (value instanceof Array) {
+      newValue = Number(value[handle]);
+    } else {
+      newValue = Number(value);
+    }
+
+    switch (e.which) {
+      case 37:
+        newValue = newValue - 10;
+        break;
+      case 39:
+        newValue = newValue + 10;
+        break;
+      default:
+        break;
+    }
+
+    if (value instanceof Array) {
+      value[handle] = newValue;
+    } else {
+      value = newValue;
+    }
+
+    slider.set(value, e);
+  },
+  ariaLabelledby: 'slider',
 };
 
 module.exports = Nouislider;
