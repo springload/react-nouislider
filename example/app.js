@@ -6,7 +6,13 @@ import Nouislider from '../index.js';
 ReactDOM.render(
   <Nouislider
     onKeyDown={function(slider, idx, e) {
-      var value = Number(slider.get()[idx]);
+      var value = slider.get();
+      console.log(value)
+      if (value instanceof Array) {
+        value = Number(value[idx]);
+      } else {
+        value = Number(value);
+      }
 
       switch (e.which) {
       case 37:
@@ -28,7 +34,7 @@ ReactDOM.render(
       density: 3
     }}
     range={{min: 0, max: 200}}
-    start={[0, 100]}
+    start={[0]}
     tabIndex={0}
     tooltips
   />, document.querySelector('#container')
