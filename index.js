@@ -26,6 +26,11 @@ class Nouislider extends React.Component {
     handles[handle].addEventListener('blur', () => this.removeListeners(handles[handle]), false);
   }
 
+  onUpdate(slider, values, handle, unencoded, tap, positions) {
+    slider.handles[handle].setAttribute('aria-valuenow', this.slider.get());
+    this.props.onUpdate(values, handle, unencoded, tap, positions);
+  }
+
   removeListeners(handle) {
     handle.removeEventListener('keydown', this.props.onKeyDown);
     handle.removeEventListener('blur', this.removeListeners);
@@ -36,7 +41,8 @@ class Nouislider extends React.Component {
     this.slider.handles = this.slider.target.querySelectorAll('.noUi-handle');
 
     if (this.props.onUpdate) {
-      this.slider.on('update', this.props.onUpdate);
+      this.slider.on('update', (values, handle, unencoded, tap, positions) =>
+        this.onUpdate(this.slider, values, handle, unencoded, tap, positions));
     }
 
     if (this.props.onChange) {
@@ -59,9 +65,7 @@ class Nouislider extends React.Component {
       handle.setAttribute('aria-valuemin', this.props.range.min);
       handle.setAttribute('aria-valuemax', this.props.range.max);
       handle.setAttribute('aria-valuenow', this.slider.get());
-      if (this.props.ariaLabelledby) {
-        this.slider.target.setAttribute('aria-labelledby', this.props.ariaLabelledby);
-      }
+      this.slider.target.setAttribute('aria-labelledby', this.props.ariaLabelledby);
     });
   }
 
@@ -153,7 +157,7 @@ Nouislider.defaultProps = {
 
     slider.set(value, e);
   },
-  ariaLabelledby: 'slider',
+  ariaLabelledby: 'slider'
 };
 
 module.exports = Nouislider;
