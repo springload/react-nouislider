@@ -35,30 +35,29 @@ class Nouislider extends React.Component {
       this.slider.on('slide', this.props.onSlide);
     }
 
-    if (this.props.tabIndex !== undefined) {
-      [].forEach.call(this.slider.handles, (handle, index) => {
-        if (this.props.tabIndex !== undefined) {
-          handle.setAttribute('tabindex', this.props.tabIndex);
+    [].forEach.call(this.slider.handles, (handle, index) => {
+      if (this.props.tabIndex !== undefined) {
+        handle.setAttribute('tabindex', this.props.tabIndex);
 
-          if (this.props.onFocus) {
-            handle.addEventListener('focus', (event) => this.props.onFocus(this.slider, index));
-          }
+        if (this.props.onFocus) {
+          handle.addEventListener('focus', (event) => this.props.onFocus(this.slider, index));
         }
+      }
 
+      if (this.props.tabIndex !== undefined) {
         handle.addEventListener('click', (event) => {
           event.target.focus();
         });
+      }
 
-        handle.setAttribute('role', 'slider');
-        handle.setAttribute('aria-valuemin', this.props.range[0]);
-        handle.setAttribute('aria-valuemax', this.props.range[1]);
-        handle.setAttribute('aria-valuenow', slider.get());
-        if(this.props.ariaLabelledby) {
-          this.slider.target.setAttribute('aria-labelledby', this.props.ariaLabelledby);
-        }
-      });
-    }
-
+      handle.setAttribute('role', 'slider');
+      handle.setAttribute('aria-valuemin', this.props.range[0]);
+      handle.setAttribute('aria-valuemax', this.props.range[1]);
+      handle.setAttribute('aria-valuenow', this.slider.get());
+      if (this.props.ariaLabelledby) {
+        this.slider.target.setAttribute('aria-labelledby', this.props.ariaLabelledby);
+      }
+    });
   }
 
   render() {
