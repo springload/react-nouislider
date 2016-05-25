@@ -7,7 +7,7 @@ ReactDOM.render(
   <Nouislider
     onKeyDown={function(slider, idx, e) {
       var value = slider.get();
-      console.log(value)
+
       if (value instanceof Array) {
         value = Number(value[idx]);
       } else {
@@ -34,7 +34,7 @@ ReactDOM.render(
       density: 3
     }}
     range={{min: 0, max: 200}}
-    start={[0]}
+    start={[0, 100]}
     tabIndex={0}
     tooltips
   />, document.querySelector('#container')
