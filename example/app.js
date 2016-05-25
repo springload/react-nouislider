@@ -13,7 +13,7 @@ function handleUpdate(value) {
 
 ReactDOM.render(
   <Nouislider
-    ariaLabelledby="slider"
+    ariaLabelledby="sliderLabel"
     onChange={handleChange}
     onUpdate={handleUpdate}
     pips={{
@@ -21,7 +21,7 @@ ReactDOM.render(
       density: 3
     }}
     range={{min: 0, max: 200}}
-    start={[0]}
+    start={[0, 100]}
     tooltips
   />, document.querySelector('#container')
 );
