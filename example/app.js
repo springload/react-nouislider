@@ -35,6 +35,7 @@ ReactDOM.render(
     }}
     range={{min: 0, max: 200}}
     start={[0, 100]}
+    ariaLabelledby="slider"
     tabIndex={0}
     tooltips
   />, document.querySelector('#container')

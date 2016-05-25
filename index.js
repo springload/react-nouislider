@@ -50,6 +50,15 @@ class Nouislider extends React.Component {
         }
       });
     }
+
+    var handles = slider.target.querySelectorAll('.noUi-handle');
+    [].forEach.call(handles, (handle, idx) => {
+      handle.setAttribute('role', 'slider');
+      // handle.setAttribute('aria-valuemin', min);
+      // handle.setAttribute('aria-valuemax', max);
+      handle.setAttribute('aria-valuenow', slider.get());
+      slider.target.setAttribute('aria-labelledby', this.props.ariaLabelledby);
+    });
   }
 
   render() {
