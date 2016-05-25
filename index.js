@@ -30,11 +30,7 @@ class Nouislider extends React.Component {
     if (this.props.onChange) {
       this.slider.on('change', this.props.onChange);
     }
-
-    if (this.props.onUpdate) {
-      this.slider.on('update', this.props.onUpdate);
-    }
-
+    
     if (this.props.onSlide) {
       this.slider.on('slide', this.props.onSlide);
     }
