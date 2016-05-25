@@ -77,6 +77,7 @@ class Nouislider extends React.Component {
 Nouislider.propTypes = {
   // http://refreshless.com/nouislider/slider-options/#section-animate
   animate: React.PropTypes.bool,
+  // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-labelledby_attribute
   ariaLabelledby: React.PropTypes.string,
   // http://refreshless.com/nouislider/behaviour-option/
   behaviour: React.PropTypes.string,
