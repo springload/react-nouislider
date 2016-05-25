@@ -33,6 +33,23 @@ class Nouislider extends React.Component {
     if (this.props.onSlide) {
       slider.on('slide', this.props.onSlide);
     }
+
+    if ((this.props.tabIndex !== undefined) || (this.props.onKeyDown !== undefined)) {
+      var handles = slider.target.querySelectorAll('.noUi-handle');
+      [].forEach.call(handles, (handle, idx) => {
+        if (this.props.tabIndex !== undefined) {
+          handle.setAttribute('tabindex', this.props.tabIndex);
+        }
+
+        handle.addEventListener('click', (event) => {
+          event.target.focus();
+        });
+
+        if (this.props.onKeyDown) {
+          handle.addEventListener('keydown', (event) => this.props.onKeyDown(slider, idx, event));
+        }
+      });
+    }
   }
 
   render() {
@@ -76,6 +93,10 @@ Nouislider.propTypes = {
   start: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
   // http://refreshless.com/nouislider/slider-options/#section-step
   step: React.PropTypes.number,
+  // https://refreshless.com/nouislider/examples/#section-keyboard
+  tabIndex: React.PropTypes.number,
+  // https://refreshless.com/nouislider/examples/#section-keyboard
+  onKeyDown: React.PropTypes.func,
   // http://refreshless.com/nouislider/slider-options/#section-tooltips
   tooltips: React.PropTypes.oneOfType([
     React.PropTypes.bool,
