@@ -20,34 +20,38 @@ class Nouislider extends React.Component {
   }
 
   createSlider() {
-    var slider = this.slider = nouislider.create(this.sliderContainer, {...this.props});
+    this.slider = nouislider.create(this.sliderContainer, {...this.props});
+    this.slider.handles = this.slider.target.querySelectorAll('.noUi-handle');
 
     if (this.props.onUpdate) {
-      slider.on('update', this.props.onUpdate);
+      this.slider.on('update', this.props.onUpdate);
     }
 
     if (this.props.onChange) {
-      slider.on('change', this.props.onChange);
+      this.slider.on('change', this.props.onChange);
+    }
+
+    if (this.props.onUpdate) {
+      this.slider.on('update', this.props.onUpdate);
     }
 
     if (this.props.onSlide) {
-      slider.on('slide', this.props.onSlide);
+      this.slider.on('slide', this.props.onSlide);
     }
 
-    if ((this.props.tabIndex !== undefined) || (this.props.onKeyDown !== undefined)) {
-      var handles = slider.target.querySelectorAll('.noUi-handle');
-      [].forEach.call(handles, (handle, idx) => {
+    if (this.props.tabIndex !== undefined) {
+      [].forEach.call(this.slider.handles, (handle, index) => {
         if (this.props.tabIndex !== undefined) {
           handle.setAttribute('tabindex', this.props.tabIndex);
+
+          if (this.props.onFocus) {
+            handle.addEventListener('focus', (event) => this.props.onFocus(this.slider, index));
+          }
         }
 
         handle.addEventListener('click', (event) => {
           event.target.focus();
         });
-
-        if (this.props.onKeyDown) {
-          handle.addEventListener('keydown', (event) => this.props.onKeyDown(slider, idx, event));
-        }
       });
     }
 
