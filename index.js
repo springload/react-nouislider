@@ -50,8 +50,8 @@ class Nouislider extends React.Component {
         });
 
         handle.setAttribute('role', 'slider');
-        // handle.setAttribute('aria-valuemin', min);
-        // handle.setAttribute('aria-valuemax', max);
+        handle.setAttribute('aria-valuemin', this.props.range[0]);
+        handle.setAttribute('aria-valuemax', this.props.range[1]);
         handle.setAttribute('aria-valuenow', slider.get());
         if(this.props.ariaLabelledby) {
           this.slider.target.setAttribute('aria-labelledby', this.props.ariaLabelledby);
