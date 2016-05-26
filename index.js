@@ -40,6 +40,8 @@ class Nouislider extends React.Component {
     var slider = this.slider = nouislider.create(this.sliderContainer, {...this.props});
 
     this.slider.handles = this.slider.target.querySelectorAll('.noUi-handle');
+    this.slider.baseTrackBackground = this.slider.target.querySelectorAll('.noUi-origin');
+    this.sliderContainer.className += ' u-bg-alt-current';
 
     if (this.props.onUpdate) {
       this.slider.on('update', (values, handle, unencoded, tap, positions) =>
@@ -55,6 +57,7 @@ class Nouislider extends React.Component {
     }
 
     [].forEach.call(this.slider.handles, (handle, index) => {
+      handle.className += ' u-pseudo-bg-current u-pseudo-border-current';
       handle.setAttribute('tabindex', this.props.tabIndex);
       handle.addEventListener('focus', () => this.onFocus(index));
 
@@ -68,6 +71,11 @@ class Nouislider extends React.Component {
       handle.setAttribute('aria-valuenow', this.slider.get());
       handle.setAttribute('aria-labelledby', this.props.ariaLabelledby);
     });
+
+    [].forEach.call(this.slider.baseTrackBackground, (track) => {
+        track.className += ' u-bg-contrast-current';
+    });
+
   }
 
   render() {
