@@ -19,15 +19,15 @@ class Nouislider extends React.Component {
     this.slider.destroy();
   }
 
-  onFocus(slider, handle) {
-    var handles = slider.target.querySelectorAll('.noUi-handle');
+  onFocus(handle) {
+    var handles = this.slider.target.querySelectorAll('.noUi-handle');
     handles[handle].addEventListener('keydown', (event) =>
-      this.props.onKeyDown(slider, handle, event), false);
+      this.props.onKeyDown(this.slider, handle, event), false);
     handles[handle].addEventListener('blur', () => this.removeListeners(handles[handle]), false);
   }
 
-  onUpdate(slider, values, handle, unencoded, tap, positions) {
-    slider.handles[handle].setAttribute('aria-valuenow', this.slider.get());
+  onUpdate(values, handle, unencoded, tap, positions) {
+    this.slider.handles[handle].setAttribute('aria-valuenow', this.slider.get());
     this.props.onUpdate(values, handle, unencoded, tap, positions);
   }
 
@@ -39,10 +39,16 @@ class Nouislider extends React.Component {
   createSlider() {
     this.slider = nouislider.create(this.sliderContainer, {...this.props});
     this.slider.handles = this.slider.target.querySelectorAll('.noUi-handle');
+    this.slider.baseTrackBackgrounds = this.slider.target.querySelectorAll('.noUi-origin');
+
+    var handleCount = this.slider.handles.length;
+    this.sliderContainer.className += (handleCount > 1) ? ' u-bg-contrast-current' : ' u-bg-alt-current';
+    this.slider.baseTrackBackgrounds[0].className += (handleCount > 1) ? ' u-bg-alt-current' : '';
+    this.slider.baseTrackBackgrounds[handleCount - 1].className += ' u-bg-contrast-current';
 
     if (this.props.onUpdate) {
       this.slider.on('update', (values, handle, unencoded, tap, positions) =>
-        this.onUpdate(this.slider, values, handle, unencoded, tap, positions));
+        this.onUpdate(values, handle, unencoded, tap, positions));
     }
 
     if (this.props.onChange) {
@@ -54,8 +60,9 @@ class Nouislider extends React.Component {
     }
 
     [].forEach.call(this.slider.handles, (handle, index) => {
+      handle.className += ' u-pseudo-bg-current u-pseudo-border-current';
       handle.setAttribute('tabindex', this.props.tabIndex);
-      handle.addEventListener('focus', () => this.onFocus(this.slider, index));
+      handle.addEventListener('focus', () => this.onFocus(index));
 
       handle.addEventListener('click', (event) => {
         event.target.focus();
