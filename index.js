@@ -42,9 +42,10 @@ class Nouislider extends React.Component {
     this.slider.baseTrackBackgrounds = this.slider.target.querySelectorAll('.noUi-origin');
 
     var handleCount = this.slider.handles.length;
-    this.sliderContainer.className += (handleCount > 1) ? ' u-bg-contrast-current' : ' u-bg-alt-current';
-    this.slider.baseTrackBackgrounds[0].className += (handleCount > 1) ? ' u-bg-alt-current' : '';
-    this.slider.baseTrackBackgrounds[handleCount - 1].className += ' u-bg-contrast-current';
+    this.sliderContainer.className +=
+      (handleCount > 1) ? ` ${this.props.cssTrackContrastClass}` : ` ${this.props.cssTrackClass}`;
+    this.slider.baseTrackBackgrounds[0].className += (handleCount > 1) ? ` ${this.props.cssTrackClass}` : '';
+    this.slider.baseTrackBackgrounds[handleCount - 1].className += ` ${this.props.cssTrackContrastClass}`;
 
     if (this.props.onUpdate) {
       this.slider.on('update', (values, handle, unencoded, tap, positions) =>
@@ -60,19 +61,23 @@ class Nouislider extends React.Component {
     }
 
     [].forEach.call(this.slider.handles, (handle, index) => {
-      handle.className += ' u-pseudo-bg-current u-pseudo-border-current';
-      handle.setAttribute('tabindex', this.props.tabIndex);
-      handle.addEventListener('focus', () => this.onFocus(index));
+      handle.className += ` ${this.props.cssHandleClass}`;
+      if (this.props.tabIndex > -1) {
+        handle.setAttribute('tabindex', this.props.tabIndex);
+        handle.addEventListener('focus', () => this.onFocus(index));
 
-      handle.addEventListener('click', (event) => {
-        event.target.focus();
-      });
+        handle.addEventListener('click', (event) => {
+          event.target.focus();
+        });
 
-      handle.setAttribute('role', 'slider');
-      handle.setAttribute('aria-valuemin', this.props.range.min);
-      handle.setAttribute('aria-valuemax', this.props.range.max);
-      handle.setAttribute('aria-valuenow', this.slider.get());
-      handle.setAttribute('aria-labelledby', this.props.ariaLabelledby);
+        handle.setAttribute('role', 'slider');
+        handle.setAttribute('aria-valuemin', this.props.range.min);
+        handle.setAttribute('aria-valuemax', this.props.range.max);
+        handle.setAttribute('aria-valuenow', this.slider.get());
+        handle.setAttribute('aria-labelledby', this.props.ariaLabelledby);
+      } else {
+        handle.setAttribute('role', 'presentation');
+      }
     });
   }
 
@@ -93,8 +98,11 @@ Nouislider.propTypes = {
     React.PropTypes.oneOf(['lower', 'upper']),
     React.PropTypes.bool
   ]),
+  cssHandleClass: React.PropTypes.string,
   // http://refreshless.com/nouislider/slider-options/#section-cssPrefix
   cssPrefix: React.PropTypes.string,
+  cssTrackClass: React.PropTypes.string,
+  cssTrackContrastClass: React.PropTypes.string,
   // http://refreshless.com/nouislider/slider-options/#section-orientation
   direction: React.PropTypes.oneOf(['ltr', 'rtl']),
   // http://refreshless.com/nouislider/more/#section-disable
@@ -135,7 +143,9 @@ Nouislider.propTypes = {
 };
 
 Nouislider.defaultProps = {
-  tabIndex: 0,
+  cssTrackClass: 'noUi-bg-alt-current',
+  cssTrackContrastClass: 'noUi-bg-contrast-current',
+  cssHandleClass: 'noUi-pseudo-bg-current noUi-pseudo-border-current',
   onKeyDown: (slider, handle, e) => {
     var value = slider.get();
     var newValue;
