@@ -37,23 +37,14 @@ class Nouislider extends React.Component {
   }
 
   createSlider() {
-    var slider = this.slider = nouislider.create(this.sliderContainer, {...this.props});
+    this.slider = nouislider.create(this.sliderContainer, {...this.props});
     this.slider.handles = this.slider.target.querySelectorAll('.noUi-handle');
     this.slider.baseTrackBackgrounds = this.slider.target.querySelectorAll('.noUi-origin');
-    var handleCount = this.slider.baseTrackBackgrounds.length;
 
-    if (handleCount > 1) {
-      this.sliderContainer.className += ' u-bg-contrast-current';
-      this.slider.baseTrackBackgrounds[0].className += ' u-bg-alt-current';
-      this.slider.baseTrackBackgrounds[handleCount - 1].className += ' u-bg-contrast-current';
-    } else {
-      this.sliderContainer.className += ' u-bg-alt-current';
-
-      [].forEach.call(this.slider.baseTrackBackgrounds, (track) => {
-        track.className += ' u-bg-contrast-current';
-      });
-    }
-
+    var handleCount = this.slider.handles.length;
+    this.sliderContainer.className += (handleCount > 1) ? ' u-bg-contrast-current' : ' u-bg-alt-current';
+    this.slider.baseTrackBackgrounds[0].className += (handleCount > 1) ? ' u-bg-alt-current' : '';
+    this.slider.baseTrackBackgrounds[handleCount - 1].className += ' u-bg-contrast-current';
 
     if (this.props.onUpdate) {
       this.slider.on('update', (values, handle, unencoded, tap, positions) =>
@@ -83,8 +74,6 @@ class Nouislider extends React.Component {
       handle.setAttribute('aria-valuenow', this.slider.get());
       handle.setAttribute('aria-labelledby', this.props.ariaLabelledby);
     });
-
-
   }
 
   render() {
