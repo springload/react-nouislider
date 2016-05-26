@@ -279,3 +279,22 @@
 .noUi-marker-vertical.noUi-marker-large {
   width: 15px;
 }
+
+.t-blue .u-bg-alt-current {
+  background-color: #25a5ca;
+}
+
+.t-blue .u-bg-contrast-current {
+  background-color: #CFCFCF;
+}
+
+.t-blue .u-pseudo-bg-current:after,
+.t-blue .u-pseudo-bg-current:before {
+  background-color: #25a5ca;
+}
+
+.t-blue .u-pseudo-border-current:before,
+.t-blue .u-pseudo-border-current:after {
+  border-color: #25a5ca;
+}
+

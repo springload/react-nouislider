@@ -25,3 +25,18 @@ ReactDOM.render(
     tooltips
   />, document.querySelector('#container')
 );
+
+ReactDOM.render(
+  <Nouislider
+    ariaLabelledby="sliderLabel"
+    onChange={handleChange}
+    onUpdate={handleUpdate}
+    pips={{
+      mode: 'range',
+      density: 3
+    }}
+    range={{min: 0, max: 200}}
+    start={[0]}
+    tooltips
+  />, document.querySelector('#container2')
+);
