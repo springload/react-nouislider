@@ -19,15 +19,15 @@ class Nouislider extends React.Component {
     this.slider.destroy();
   }
 
-  onFocus(slider, handle) {
-    var handles = slider.target.querySelectorAll('.noUi-handle');
+  onFocus(handle) {
+    var handles = this.slider.target.querySelectorAll('.noUi-handle');
     handles[handle].addEventListener('keydown', (event) =>
-      this.props.onKeyDown(slider, handle, event), false);
+      this.props.onKeyDown(this.slider, handle, event), false);
     handles[handle].addEventListener('blur', () => this.removeListeners(handles[handle]), false);
   }
 
-  onUpdate(slider, values, handle, unencoded, tap, positions) {
-    slider.handles[handle].setAttribute('aria-valuenow', this.slider.get());
+  onUpdate(values, handle, unencoded, tap, positions) {
+    this.slider.handles[handle].setAttribute('aria-valuenow', this.slider.get());
     this.props.onUpdate(values, handle, unencoded, tap, positions);
   }
 
@@ -37,12 +37,13 @@ class Nouislider extends React.Component {
   }
 
   createSlider() {
-    this.slider = nouislider.create(this.sliderContainer, {...this.props});
+    var slider = this.slider = nouislider.create(this.sliderContainer, {...this.props});
+
     this.slider.handles = this.slider.target.querySelectorAll('.noUi-handle');
 
     if (this.props.onUpdate) {
       this.slider.on('update', (values, handle, unencoded, tap, positions) =>
-        this.onUpdate(this.slider, values, handle, unencoded, tap, positions));
+        this.onUpdate(values, handle, unencoded, tap, positions));
     }
 
     if (this.props.onChange) {
@@ -55,7 +56,7 @@ class Nouislider extends React.Component {
 
     [].forEach.call(this.slider.handles, (handle, index) => {
       handle.setAttribute('tabindex', this.props.tabIndex);
-      handle.addEventListener('focus', () => this.onFocus(this.slider, index));
+      handle.addEventListener('focus', () => this.onFocus(index));
 
       handle.addEventListener('click', (event) => {
         event.target.focus();
