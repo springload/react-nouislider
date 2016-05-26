@@ -49,12 +49,12 @@ var Nouislider = (function (_React$Component) {
     }
   }, {
     key: 'onFocus',
-    value: function onFocus(slider, handle) {
+    value: function onFocus(handle) {
       var _this = this;
 
-      var handles = slider.target.querySelectorAll('.noUi-handle');
+      var handles = this.slider.target.querySelectorAll('.noUi-handle');
       handles[handle].addEventListener('keydown', function (event) {
-        return _this.props.onKeyDown(slider, handle, event);
+        return _this.props.onKeyDown(_this.slider, handle, event);
       }, false);
       handles[handle].addEventListener('blur', function () {
         return _this.removeListeners(handles[handle]);
@@ -62,8 +62,8 @@ var Nouislider = (function (_React$Component) {
     }
   }, {
     key: 'onUpdate',
-    value: function onUpdate(slider, values, handle, unencoded, tap, positions) {
-      slider.handles[handle].setAttribute('aria-valuenow', this.slider.get());
+    value: function onUpdate(values, handle, unencoded, tap, positions) {
+      this.slider.handles[handle].setAttribute('aria-valuenow', this.slider.get());
       this.props.onUpdate(values, handle, unencoded, tap, positions);
     }
   }, {
@@ -79,10 +79,16 @@ var Nouislider = (function (_React$Component) {
 
       this.slider = _nouisliderAlgoliaFork2['default'].create(this.sliderContainer, _extends({}, this.props));
       this.slider.handles = this.slider.target.querySelectorAll('.noUi-handle');
+      this.slider.baseTrackBackgrounds = this.slider.target.querySelectorAll('.noUi-origin');
+
+      var handleCount = this.slider.handles.length;
+      this.sliderContainer.className += handleCount > 1 ? ' u-bg-contrast-current' : ' u-bg-alt-current';
+      this.slider.baseTrackBackgrounds[0].className += handleCount > 1 ? ' u-bg-alt-current' : '';
+      this.slider.baseTrackBackgrounds[handleCount - 1].className += ' u-bg-contrast-current';
 
       if (this.props.onUpdate) {
         this.slider.on('update', function (values, handle, unencoded, tap, positions) {
-          return _this2.onUpdate(_this2.slider, values, handle, unencoded, tap, positions);
+          return _this2.onUpdate(values, handle, unencoded, tap, positions);
         });
       }
 
@@ -95,9 +101,10 @@ var Nouislider = (function (_React$Component) {
       }
 
       [].forEach.call(this.slider.handles, function (handle, index) {
+        handle.className += ' u-pseudo-bg-current u-pseudo-border-current';
         handle.setAttribute('tabindex', _this2.props.tabIndex);
         handle.addEventListener('focus', function () {
-          return _this2.onFocus(_this2.slider, index);
+          return _this2.onFocus(index);
         });
 
         handle.addEventListener('click', function (event) {
