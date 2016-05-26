@@ -148,9 +148,11 @@ Nouislider.defaultProps = {
 
     switch (e.which) {
       case 37:
+      case 40:
         newValue = newValue - 10;
         break;
       case 39:
+      case 38:
         newValue = newValue + 10;
         break;
       default:
