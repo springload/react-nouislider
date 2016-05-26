@@ -136,6 +136,7 @@ Nouislider.propTypes = {
 
 Nouislider.defaultProps = {
   tabIndex: 0,
+  step: 10,
   onKeyDown: (slider, handle, e) => {
     var value = slider.get();
     var newValue;
@@ -148,10 +149,10 @@ Nouislider.defaultProps = {
 
     switch (e.which) {
       case 37:
-        newValue = newValue - 10;
+        newValue = newValue - this.props.step;
         break;
       case 39:
-        newValue = newValue + 10;
+        newValue = newValue + this.props.step;
         break;
       default:
         break;
