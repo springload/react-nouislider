@@ -42,9 +42,10 @@ class Nouislider extends React.Component {
     this.slider.baseTrackBackgrounds = this.slider.target.querySelectorAll('.noUi-origin');
 
     var handleCount = this.slider.handles.length;
-    this.sliderContainer.className += (handleCount > 1) ? ' u-bg-contrast-current' : ' u-bg-alt-current';
-    this.slider.baseTrackBackgrounds[0].className += (handleCount > 1) ? ' u-bg-alt-current' : '';
-    this.slider.baseTrackBackgrounds[handleCount - 1].className += ' u-bg-contrast-current';
+    this.sliderContainer.className +=
+      (handleCount > 1) ? ` ${this.props.classNameTrackContrast}` : ` ${this.props.classNameTrack}`;
+    this.slider.baseTrackBackgrounds[0].className += (handleCount > 1) ? ` ${this.props.classNameTrack}` : '';
+    this.slider.baseTrackBackgrounds[handleCount - 1].className += ` ${this.props.classNameTrackContrast}`;
 
     if (this.props.onUpdate) {
       this.slider.on('update', (values, handle, unencoded, tap, positions) =>
@@ -60,19 +61,21 @@ class Nouislider extends React.Component {
     }
 
     [].forEach.call(this.slider.handles, (handle, index) => {
-      handle.className += ' u-pseudo-bg-current u-pseudo-border-current';
-      handle.setAttribute('tabindex', this.props.tabIndex);
-      handle.addEventListener('focus', () => this.onFocus(index));
+      handle.className += ` ${this.props.classNameHandle}`;
+      if (this.props.tabIndex > -1) {
+        handle.setAttribute('tabindex', this.props.tabIndex);
+        handle.addEventListener('focus', () => this.onFocus(index));
 
-      handle.addEventListener('click', (event) => {
-        event.target.focus();
-      });
+        handle.addEventListener('click', (event) => {
+          event.target.focus();
+        });
 
-      handle.setAttribute('role', 'slider');
-      handle.setAttribute('aria-valuemin', this.props.range.min);
-      handle.setAttribute('aria-valuemax', this.props.range.max);
-      handle.setAttribute('aria-valuenow', this.slider.get());
-      handle.setAttribute('aria-labelledby', this.props.ariaLabelledby);
+        handle.setAttribute('role', 'slider');
+        handle.setAttribute('aria-valuemin', this.props.range.min);
+        handle.setAttribute('aria-valuemax', this.props.range.max);
+        handle.setAttribute('aria-valuenow', this.slider.get());
+        handle.setAttribute('aria-labelledby', this.props.ariaLabelledby);
+      }
     });
   }
 
@@ -88,6 +91,9 @@ Nouislider.propTypes = {
   ariaLabelledby: React.PropTypes.string,
   // http://refreshless.com/nouislider/behaviour-option/
   behaviour: React.PropTypes.string,
+  classNameHandle: React.PropTypes.string,
+  classNameTrack: React.PropTypes.string,
+  classNameTrackContrast: React.PropTypes.string,
   // http://refreshless.com/nouislider/slider-options/#section-Connect
   connect: React.PropTypes.oneOfType([
     React.PropTypes.oneOf(['lower', 'upper']),
@@ -135,7 +141,9 @@ Nouislider.propTypes = {
 };
 
 Nouislider.defaultProps = {
-  tabIndex: 0,
+  classNameTrack: 'noUi-bg-alt-current',
+  classNameTrackContrast: 'noUi-bg-contrast-current',
+  classNameHandle: 'noUi-pseudo-bg-current noUi-pseudo-border-current',
   onKeyDown: (slider, handle, e) => {
     var value = slider.get();
     var newValue;
@@ -147,14 +155,16 @@ Nouislider.defaultProps = {
     }
 
     switch (e.which) {
-      case 37:
-        newValue = newValue - 10;
-        break;
-      case 39:
-        newValue = newValue + 10;
-        break;
-      default:
-        break;
+    case 37:
+    case 40:
+      newValue = newValue - 10;
+      break;
+    case 39:
+    case 38:
+      newValue = newValue + 10;
+      break;
+    default:
+      break;
     }
 
     if (value instanceof Array) {
