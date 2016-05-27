@@ -82,9 +82,9 @@ var Nouislider = (function (_React$Component) {
       this.slider.baseTrackBackgrounds = this.slider.target.querySelectorAll('.noUi-origin');
 
       var handleCount = this.slider.handles.length;
-      this.sliderContainer.className += handleCount > 1 ? ' u-bg-contrast-current' : ' u-bg-alt-current';
-      this.slider.baseTrackBackgrounds[0].className += handleCount > 1 ? ' u-bg-alt-current' : '';
-      this.slider.baseTrackBackgrounds[handleCount - 1].className += ' u-bg-contrast-current';
+      this.sliderContainer.className += handleCount > 1 ? ' ' + this.props.classNameTrackContrast : ' ' + this.props.classNameTrack;
+      this.slider.baseTrackBackgrounds[0].className += handleCount > 1 ? ' ' + this.props.classNameTrack : '';
+      this.slider.baseTrackBackgrounds[handleCount - 1].className += ' ' + this.props.classNameTrackContrast;
 
       if (this.props.onUpdate) {
         this.slider.on('update', function (values, handle, unencoded, tap, positions) {
@@ -101,21 +101,23 @@ var Nouislider = (function (_React$Component) {
       }
 
       [].forEach.call(this.slider.handles, function (handle, index) {
-        handle.className += ' u-pseudo-bg-current u-pseudo-border-current';
-        handle.setAttribute('tabindex', _this2.props.tabIndex);
-        handle.addEventListener('focus', function () {
-          return _this2.onFocus(index);
-        });
+        handle.className += ' ' + _this2.props.classNameHandle;
+        if (_this2.props.tabIndex > -1) {
+          handle.setAttribute('tabindex', _this2.props.tabIndex);
+          handle.addEventListener('focus', function () {
+            return _this2.onFocus(index);
+          });
 
-        handle.addEventListener('click', function (event) {
-          event.target.focus();
-        });
+          handle.addEventListener('click', function (event) {
+            event.target.focus();
+          });
 
-        handle.setAttribute('role', 'slider');
-        handle.setAttribute('aria-valuemin', _this2.props.range.min);
-        handle.setAttribute('aria-valuemax', _this2.props.range.max);
-        handle.setAttribute('aria-valuenow', _this2.slider.get());
-        handle.setAttribute('aria-labelledby', _this2.props.ariaLabelledby);
+          handle.setAttribute('role', 'slider');
+          handle.setAttribute('aria-valuemin', _this2.props.range.min);
+          handle.setAttribute('aria-valuemax', _this2.props.range.max);
+          handle.setAttribute('aria-valuenow', _this2.slider.get());
+          handle.setAttribute('aria-labelledby', _this2.props.ariaLabelledby);
+        }
       });
     }
   }, {
@@ -139,6 +141,9 @@ Nouislider.propTypes = {
   ariaLabelledby: _react2['default'].PropTypes.string,
   // http://refreshless.com/nouislider/behaviour-option/
   behaviour: _react2['default'].PropTypes.string,
+  classNameHandle: _react2['default'].PropTypes.string,
+  classNameTrack: _react2['default'].PropTypes.string,
+  classNameTrackContrast: _react2['default'].PropTypes.string,
   // http://refreshless.com/nouislider/slider-options/#section-Connect
   connect: _react2['default'].PropTypes.oneOfType([_react2['default'].PropTypes.oneOf(['lower', 'upper']), _react2['default'].PropTypes.bool]),
   // http://refreshless.com/nouislider/slider-options/#section-cssPrefix
@@ -178,7 +183,9 @@ Nouislider.propTypes = {
 };
 
 Nouislider.defaultProps = {
-  tabIndex: 0,
+  classNameTrack: 'noUi-bg-alt-current',
+  classNameTrackContrast: 'noUi-bg-contrast-current',
+  classNameHandle: 'noUi-pseudo-bg-current noUi-pseudo-border-current',
   onKeyDown: function onKeyDown(slider, handle, e) {
     var value = slider.get();
     var newValue;
@@ -191,9 +198,11 @@ Nouislider.defaultProps = {
 
     switch (e.which) {
       case 37:
+      case 40:
         newValue = newValue - 10;
         break;
       case 39:
+      case 38:
         newValue = newValue + 10;
         break;
       default:
