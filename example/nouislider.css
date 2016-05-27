@@ -280,21 +280,21 @@
   width: 15px;
 }
 
-.t-blue .u-bg-alt-current {
+.noUi-bg-alt-current {
   background-color: #25a5ca;
 }
 
-.t-blue .u-bg-contrast-current {
+.noUi-bg-contrast-current {
   background-color: #CFCFCF;
 }
 
-.t-blue .u-pseudo-bg-current:after,
-.t-blue .u-pseudo-bg-current:before {
+.noUi-pseudo-bg-current:after,
+.noUi-pseudo-bg-current:before {
   background-color: #25a5ca;
 }
 
-.t-blue .u-pseudo-border-current:before,
-.t-blue .u-pseudo-border-current:after {
+.noUi-pseudo-border-current:before,
+.noUi-pseudo-border-current:after {
   border-color: #25a5ca;
 }
 
