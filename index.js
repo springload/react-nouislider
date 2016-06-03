@@ -6,6 +6,8 @@ class Nouislider extends React.Component {
     if (this.props.disabled) this.sliderContainer.setAttribute('disabled', true);
     else this.sliderContainer.removeAttribute('disabled');
     this.createSlider();
+    this.keyDownRate = 10;
+    this.lastKeyDown = new Date();
   }
 
   componentDidUpdate() {
@@ -21,8 +23,14 @@ class Nouislider extends React.Component {
 
   onFocus(handle) {
     var handles = this.slider.target.querySelectorAll('.noUi-handle');
-    handles[handle].addEventListener('keydown', (event) =>
-      this.props.onKeyDown(this.slider, handle, event), false);
+    handles[handle].addEventListener('keydown', (event) => {
+      var keyDownTime = new Date();
+      if ((keyDownTime - this.lastKeyDown) / 1000 > 1 / this.props.keyDownRate) {
+        this.props.onKeyDown(this.slider, handle, event);
+        this.lastKeyDown = keyDownTime;
+      }
+    },
+      false);
     handles[handle].addEventListener('blur', () => this.removeListeners(handles[handle]), false);
   }
 
@@ -105,6 +113,7 @@ Nouislider.propTypes = {
   direction: React.PropTypes.oneOf(['ltr', 'rtl']),
   // http://refreshless.com/nouislider/more/#section-disable
   disabled: React.PropTypes.bool,
+  keyDownRate: React.PropTypes.number,
   // http://refreshless.com/nouislider/slider-options/#section-limit
   limit: React.PropTypes.number,
   // http://refreshless.com/nouislider/slider-options/#section-margin
@@ -144,6 +153,7 @@ Nouislider.defaultProps = {
   classNameTrack: 'noUi-bg-alt-current',
   classNameTrackContrast: 'noUi-bg-contrast-current',
   classNameHandle: 'noUi-pseudo-bg-current noUi-pseudo-border-current',
+  keyDownRate: 100,
   onKeyDown: (slider, handle, e) => {
     var value = slider.get();
     var newValue;
