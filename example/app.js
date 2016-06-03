@@ -22,6 +22,7 @@ ReactDOM.render(
     }}
     range={{min: 0, max: 200}}
     start={[0, 100]}
+    tabIndex={0}
     tooltips
   />, document.querySelector('#container')
 );
@@ -29,6 +30,7 @@ ReactDOM.render(
 ReactDOM.render(
   <Nouislider
     ariaLabelledby="sliderLabel"
+    keyDownRate={10}
     onChange={handleChange}
     onUpdate={handleUpdate}
     pips={{
@@ -37,6 +39,7 @@ ReactDOM.render(
     }}
     range={{min: 0, max: 200}}
     start={[0]}
+    tabIndex={0}
     tooltips
   />, document.querySelector('#container2')
 );
