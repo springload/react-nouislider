@@ -88,9 +88,15 @@ var Nouislider = (function (_React$Component) {
       this.slider.baseTrackBackgrounds = this.slider.target.querySelectorAll('.noUi-origin');
 
       var handleCount = this.slider.handles.length;
-      this.sliderContainer.className += handleCount > 1 ? ' ' + this.props.classNameTrackContrast : ' ' + this.props.classNameTrack;
-      this.slider.baseTrackBackgrounds[0].className += handleCount > 1 ? ' ' + this.props.classNameTrack : '';
-      this.slider.baseTrackBackgrounds[handleCount - 1].className += ' ' + this.props.classNameTrackContrast;
+      if (this.sliderContainer.className.indexOf(this.props.classNameTrack) === -1 && this.sliderContainer.className.indexOf(this.props.classNameTrackContrast) === -1) {
+        this.sliderContainer.className += handleCount > 1 ? ' ' + this.props.classNameTrackContrast : ' ' + this.props.classNameTrack;
+      }
+      if (this.slider.baseTrackBackgrounds[0].className.indexOf(this.props.classNameTrack) === -1) {
+        this.slider.baseTrackBackgrounds[0].className += handleCount > 1 ? ' ' + this.props.classNameTrack : '';
+      }
+      if (this.slider.baseTrackBackgrounds[0].className.indexOf(this.props.classNameTrackContrast) === -1) {
+        this.slider.baseTrackBackgrounds[handleCount - 1].className += ' ' + this.props.classNameTrackContrast;
+      }
 
       if (this.props.onUpdate) {
         this.slider.on('update', function (values, handle, unencoded, tap, positions) {
