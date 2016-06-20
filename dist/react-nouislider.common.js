@@ -8,6 +8,8 @@ var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_ag
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
@@ -32,7 +34,7 @@ var Nouislider = (function (_React$Component) {
   _createClass(Nouislider, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      if (this.props.disabled) this.sliderContainer.setAttribute('disabled', true);else this.sliderContainer.removeAttribute('disabled');
+      if (this.props.disabled) this.slider.setAttribute('disabled', true);else this.slider.removeAttribute('disabled');
       this.createSlider();
       this.keyDownRate = 10;
       this.lastKeyDown = new Date();
@@ -40,7 +42,7 @@ var Nouislider = (function (_React$Component) {
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
-      if (this.props.disabled) this.sliderContainer.setAttribute('disabled', true);else this.sliderContainer.removeAttribute('disabled');
+      if (this.props.disabled) this.slider.setAttribute('disabled', true);else this.slider.removeAttribute('disabled');
       this.slider.destroy();
       this.createSlider();
     }
@@ -83,6 +85,7 @@ var Nouislider = (function (_React$Component) {
     value: function createSlider() {
       var _this2 = this;
 
+      console.log.apply(console, _toConsumableArray(this.props));
       this.slider = _nouisliderAlgoliaFork2['default'].create(this.sliderContainer, _extends({}, this.props));
       this.slider.handles = this.slider.target.querySelectorAll('.noUi-handle');
       this.slider.baseTrackBackgrounds = this.slider.target.querySelectorAll('.noUi-origin');
