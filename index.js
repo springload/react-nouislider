@@ -3,16 +3,16 @@ import nouislider from 'nouislider-algolia-fork';
 
 class Nouislider extends React.Component {
   componentDidMount() {
-    if (this.props.disabled) this.sliderContainer.setAttribute('disabled', true);
-    else this.sliderContainer.removeAttribute('disabled');
+    if (this.props.disabled) this.slider.setAttribute('disabled', true);
+    else this.slider.removeAttribute('disabled');
     this.createSlider();
     this.keyDownRate = 10;
     this.lastKeyDown = new Date();
   }
 
   componentDidUpdate() {
-    if (this.props.disabled) this.sliderContainer.setAttribute('disabled', true);
-    else this.sliderContainer.removeAttribute('disabled');
+    if (this.props.disabled) this.slider.setAttribute('disabled', true);
+    else this.slider.removeAttribute('disabled');
     this.slider.destroy();
     this.createSlider();
   }
@@ -45,6 +45,7 @@ class Nouislider extends React.Component {
   }
 
   createSlider() {
+    console.log(...this.props)
     this.slider = nouislider.create(this.sliderContainer, {...this.props});
     this.slider.handles = this.slider.target.querySelectorAll('.noUi-handle');
     this.slider.baseTrackBackgrounds = this.slider.target.querySelectorAll('.noUi-origin');
