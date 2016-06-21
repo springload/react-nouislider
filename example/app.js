@@ -3,43 +3,76 @@ import ReactDOM from 'react-dom';
 
 import Nouislider from '../index.js';
 
-function handleChange(value) {
-  console.log('handleChange', value);
-}
+class SliderWrapper extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      disabled: false
+    };
+  }
 
-function handleUpdate(value) {
-  console.log('handleUpdate', value);
+  handleChange(value) {
+    console.log('handleChange', value);
+  }
+
+  handleUpdate(value) {
+    console.log('handleUpdate', value);
+  }
+
+  handleDisable(that) {
+    console.log(that)
+    that.setState({
+      disabled: !that.state.disabled
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <div id="container">
+          <Nouislider
+            ariaLabelledby="sliderLabel"
+            onChange={this.handleChange}
+            onUpdate={this.handleUpdate}
+            pips={{
+              mode: 'range',
+              density: 3
+            }}
+            range={{min: 0, max: 200}}
+            start={[0, 100]}
+            tabIndex={0}
+            tooltips
+          />
+        </div>
+
+        <div id="container2">
+          <Nouislider
+            ariaLabelledby="sliderLabel"
+            keyDownRate={10}
+            onChange={this.handleChange}
+            onUpdate={this.handleUpdate}
+            pips={{
+              mode: 'range',
+              density: 3
+            }}
+            range={{min: 0, max: 200}}
+            start={[0]}
+            tabIndex={0}
+            tooltips
+            disabled={this.state.disabled}
+          />
+        </div>
+
+        <div>
+          <label>
+            <input onChange={(evt) => this.handleDisable(this)} type="checkbox" /> Disable
+          </label>
+        </div>
+      </div>
+    );
+  }
 }
 
 ReactDOM.render(
-  <Nouislider
-    ariaLabelledby="sliderLabel"
-    onChange={handleChange}
-    onUpdate={handleUpdate}
-    pips={{
-      mode: 'range',
-      density: 3
-    }}
-    range={{min: 0, max: 200}}
-    start={[0, 100]}
-    tabIndex={0}
-    tooltips
-  />, document.querySelector('#container')
-);
-
-ReactDOM.render(
-  <Nouislider
-    ariaLabelledby="sliderLabel"
-    keyDownRate={10}
-    onChange={handleChange}
-    onUpdate={handleUpdate}
-    pips={{
-      mode: 'range',
-      density: 3
-    }}
-    range={{min: 0, max: 200}}
-    start={[0]}
-    tabIndex={0}
-    tooltips
-  />, document.querySelector('#container2')
+  <SliderWrapper />, document.querySelector('#slider-wrapper')
 );
