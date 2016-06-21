@@ -41,19 +41,14 @@ var Nouislider = (function (_React$Component) {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
       if (this.props.disabled) this.sliderContainer.setAttribute('disabled', true);else this.sliderContainer.removeAttribute('disabled');
-      // this.slider.destroy();
-      // this.createSlider();
+      this.slider.destroy();
+      this.createSlider();
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       this.slider.destroy();
     }
-
-    // shouldComponentUpdate(nextProps) {
-    //   return !nextProps.disabled;
-    // }
-
   }, {
     key: 'onFocus',
     value: function onFocus(handle) {
