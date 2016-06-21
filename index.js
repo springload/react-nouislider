@@ -45,23 +45,28 @@ class Nouislider extends React.Component {
   }
 
   createSlider() {
-    console.log('debug');
     this.slider = nouislider.create(this.sliderContainer, {...this.props});
     this.slider.handles = this.slider.target.querySelectorAll('.noUi-handle');
     this.slider.baseTrackBackgrounds = this.slider.target.querySelectorAll('.noUi-origin');
 
     var handleCount = this.slider.handles.length;
-    if (this.sliderContainer.className.indexOf(this.props.classNameTrack) === -1 &&
-      this.sliderContainer.className.indexOf(this.props.classNameTrackContrast) === -1) {
-      this.sliderContainer.className +=
-        (handleCount > 1) ? ` ${this.props.classNameTrackContrast}` : ` ${this.props.classNameTrack}`;
+
+    if (handleCount > 1) {
+      this.props.classNameTrackContrast.forEach((item) => {
+        this.sliderContainer.classList.add(item);
+      });
+      this.props.classNameTrack.forEach((item) => {
+        this.slider.baseTrackBackgrounds[0].classList.add(item);
+      });
+    } else {
+      this.props.classNameTrack.forEach((item) => {
+        this.sliderContainer.classList.add(item);
+      });
     }
-    if (this.slider.baseTrackBackgrounds[0].className.indexOf(this.props.classNameTrack) === -1) {
-      this.slider.baseTrackBackgrounds[0].className += (handleCount > 1) ? ` ${this.props.classNameTrack}` : '';
-    }
-    if (this.slider.baseTrackBackgrounds[0].className.indexOf(this.props.classNameTrackContrast) === -1) {
-      this.slider.baseTrackBackgrounds[handleCount - 1].className += ` ${this.props.classNameTrackContrast}`;
-    }
+
+    this.props.classNameTrackContrast.forEach((item) => {
+      this.slider.baseTrackBackgrounds[handleCount - 1].classList.add(item);
+    });
 
     if (this.props.onUpdate) {
       this.slider.on('update', (values, handle, unencoded, tap, positions) =>
@@ -77,7 +82,9 @@ class Nouislider extends React.Component {
     }
 
     [].forEach.call(this.slider.handles, (handle, index) => {
-      handle.className += ` ${this.props.classNameHandle}`;
+      this.props.classNameHandle.forEach((item) => {
+        handle.classList.add(item);
+      });
       if (this.props.tabIndex > -1) {
         handle.setAttribute('tabindex', this.props.tabIndex);
         handle.addEventListener('focus', () => this.onFocus(index));
@@ -107,9 +114,9 @@ Nouislider.propTypes = {
   ariaLabelledby: React.PropTypes.string,
   // http://refreshless.com/nouislider/behaviour-option/
   behaviour: React.PropTypes.string,
-  classNameHandle: React.PropTypes.string,
-  classNameTrack: React.PropTypes.string,
-  classNameTrackContrast: React.PropTypes.string,
+  classNameHandle: React.PropTypes.array,
+  classNameTrack: React.PropTypes.array,
+  classNameTrackContrast: React.PropTypes.array,
   // http://refreshless.com/nouislider/slider-options/#section-Connect
   connect: React.PropTypes.oneOfType([
     React.PropTypes.oneOf(['lower', 'upper']),
@@ -158,9 +165,9 @@ Nouislider.propTypes = {
 };
 
 Nouislider.defaultProps = {
-  classNameTrack: 'noUi-bg-alt-current',
-  classNameTrackContrast: 'noUi-bg-contrast-current',
-  classNameHandle: 'noUi-pseudo-bg-current noUi-pseudo-border-current',
+  classNameTrack: ['noUi-bg-alt-current'],
+  classNameTrackContrast: ['noUi-bg-contrast-current'],
+  classNameHandle: ['noUi-pseudo-bg-current', 'noUi-pseudo-border-current'],
   keyDownRate: 100,
   onKeyDown: (slider, handle, e) => {
     var value = slider.get();

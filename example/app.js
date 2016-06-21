@@ -20,7 +20,6 @@ class SliderWrapper extends React.Component {
   }
 
   handleDisable(that) {
-    console.log(that)
     that.setState({
       disabled: !that.state.disabled
     });
@@ -47,10 +46,11 @@ class SliderWrapper extends React.Component {
 
         <div id="container2">
           <Nouislider
-            classNameHandle="u-pseudo-bg-current u-pseudo-border-current"
-            classNameTrack={ `u-bg-alt-current noUi-extended` }
-            classNameTrackContrast="u-bg-contrast-current"
             ariaLabelledby="sliderLabel"
+            classNameHandle={['u-pseudo-bg-current', 'u-pseudo-border-current']}
+            classNameTrack={['u-bg-alt-current', 'noUi-extended']}
+            classNameTrackContrast={['u-bg-contrast-current']}
+            disabled={this.state.disabled}
             keyDownRate={10}
             onChange={this.handleChange}
             onUpdate={this.handleUpdate}
@@ -62,7 +62,6 @@ class SliderWrapper extends React.Component {
             start={[0]}
             tabIndex={0}
             tooltips
-            disabled={this.state.disabled}
           />
         </div>
 
