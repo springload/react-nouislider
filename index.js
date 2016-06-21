@@ -45,6 +45,7 @@ class Nouislider extends React.Component {
   }
 
   createSlider() {
+    console.log('debug');
     this.slider = nouislider.create(this.sliderContainer, {...this.props});
     this.slider.handles = this.slider.target.querySelectorAll('.noUi-handle');
     this.slider.baseTrackBackgrounds = this.slider.target.querySelectorAll('.noUi-origin');

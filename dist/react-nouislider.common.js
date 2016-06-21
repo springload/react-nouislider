@@ -83,6 +83,7 @@ var Nouislider = (function (_React$Component) {
     value: function createSlider() {
       var _this2 = this;
 
+      console.log('debug');
       this.slider = _nouisliderAlgoliaFork2['default'].create(this.sliderContainer, _extends({}, this.props));
       this.slider.handles = this.slider.target.querySelectorAll('.noUi-handle');
       this.slider.baseTrackBackgrounds = this.slider.target.querySelectorAll('.noUi-origin');
