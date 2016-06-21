@@ -47,6 +47,9 @@ class SliderWrapper extends React.Component {
 
         <div id="container2">
           <Nouislider
+            classNameHandle="u-pseudo-bg-current u-pseudo-border-current"
+            classNameTrack={ `u-bg-alt-current noUi-extended` }
+            classNameTrackContrast="u-bg-contrast-current"
             ariaLabelledby="sliderLabel"
             keyDownRate={10}
             onChange={this.handleChange}
