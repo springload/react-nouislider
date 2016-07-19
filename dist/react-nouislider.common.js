@@ -120,6 +120,14 @@ var Nouislider = (function (_React$Component) {
         this.slider.on('slide', this.props.onSlide);
       }
 
+      if (this.props.onStart) {
+        this.slider.on('start', this.props.onStart);
+      }
+
+      if (this.props.onEnd) {
+        this.slider.on('end', this.props.onEnd);
+      }
+
       [].forEach.call(this.slider.handles, function (handle, index) {
         _this2.props.classNameHandle.forEach(function (item) {
           handle.classList.add(item);
@@ -181,11 +189,13 @@ Nouislider.propTypes = {
   margin: _react2['default'].PropTypes.number,
   // http://refreshless.com/nouislider/events-callbacks/#section-change
   onChange: _react2['default'].PropTypes.func,
+  onEnd: _react2['default'].PropTypes.func,
   // https://refreshless.com/nouislider/examples/#section-keyboard
   onKeyDown: _react2['default'].PropTypes.func,
   // http://refreshless.com/nouislider/events-callbacks/#section-update
   onSlide: _react2['default'].PropTypes.func,
   // http://refreshless.com/nouislider/events-callbacks/#section-slide
+  onStart: _react2['default'].PropTypes.func,
   onUpdate: _react2['default'].PropTypes.func,
   // http://refreshless.com/nouislider/slider-options/#section-orientation
   orientation: _react2['default'].PropTypes.oneOf(['horizontal', 'vertical']),
