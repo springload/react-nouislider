@@ -128,6 +128,10 @@ var Nouislider = (function (_React$Component) {
         this.slider.on('end', this.props.onEnd);
       }
 
+      if (this.props.onSet) {
+        this.slider.on('set', this.props.onSet);
+      }
+
       [].forEach.call(this.slider.handles, function (handle, index) {
         _this2.props.classNameHandle.forEach(function (item) {
           handle.classList.add(item);
@@ -192,6 +196,7 @@ Nouislider.propTypes = {
   onEnd: _react2['default'].PropTypes.func,
   // https://refreshless.com/nouislider/examples/#section-keyboard
   onKeyDown: _react2['default'].PropTypes.func,
+  onSet: _react2['default'].PropTypes.func,
   // http://refreshless.com/nouislider/events-callbacks/#section-update
   onSlide: _react2['default'].PropTypes.func,
   // http://refreshless.com/nouislider/events-callbacks/#section-slide
