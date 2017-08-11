@@ -10,11 +10,19 @@ npm install --save @springload/react-nouislider
 
 ## Usage
 
+In your stylesheets,
+
+```css
+@import '../../../node_modules/@springload/react-nouislider/dist/nouislider.css';
+```
+
+In your JS,
+
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Nouislider from 'react-nouislider';
+import Nouislider from '@springload/react-nouislider';
 
 ReactDOM.render(
   <Nouislider
