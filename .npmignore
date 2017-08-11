@@ -4,3 +4,4 @@ webpack.example.config.js
 example
 .travis.yml
 .eslintignore
+index.js
