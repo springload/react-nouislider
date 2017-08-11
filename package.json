@@ -10,25 +10,16 @@
     "watch": "mkdir -p dist && babel index.js --watch --out-file dist/react-nouislider.common.js",
     "dev": "webpack-dev-server --config webpack.example.config.js --hot --inline --no-info"
   },
-  "repository": "algolia/react-nouislider",
-  "keywords": [
-    "react",
-    "nouislider",
-    "slider",
-    "component",
-    "reactjs",
-    "range",
-    "slider"
-  ],
-  "author": "Algolia <support@algolia.com>",
+  "repository": "springload/react-nouislider",
+  "author": "Springload",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/algolia/react-nouislider/issues"
+    "url": "https://github.com/springload/react-nouislider/issues"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.1 | ^16.0.0"
   },
-  "homepage": "https://github.com/algolia/react-nouislider",
+  "homepage": "https://github.com/springload/react-nouislider",
   "dependencies": {
     "nouislider-algolia-fork": "^8.3.1-patch-0"
   },

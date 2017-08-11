@@ -1,14 +1,14 @@
-# react-nouislider
+# @springload/react-nouislider
 
-Wraps [leongersen/noUiSlider](https://github.com/leongersen/noUiSlider) in a [react component](https://facebook.github.io/react/docs/component-api.html).
+> :warning: Fork of [react-nouislider](https://github.com/algolia/react-nouislider), itself using a fork of [leongersen/noUiSlider](https://github.com/leongersen/noUiSlider) to allow setting ranges dynamically and other fixes to be merged in upstream project.
 
-Currently using [Algolia's fork](https://github.com/algolia/noUiSlider) of noUiSlider to allow setting ranges dynamically and other fixes to be merged in upstream project.
-
-## Usage
+**Use at your own risks.**
 
 ```sh
-npm install react-nouislider --save
+npm install --save @springload/react-nouislider
 ```
+
+## Usage
 
 ```js
 import React from 'react';
