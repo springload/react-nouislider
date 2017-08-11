@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint . --quiet",
     "test": "npm run lint",
-    "build": "mkdir -p dist && babel index.js --out-file dist/react-nouislider.common.js",
+    "build": "mkdir -p dist && babel index.js --out-file dist/react-nouislider.common.js && cp example/nouislider.css dist",
     "watch": "mkdir -p dist && babel index.js --watch --out-file dist/react-nouislider.common.js",
     "dev": "webpack-dev-server --config webpack.example.config.js --hot --inline --no-info"
   },
