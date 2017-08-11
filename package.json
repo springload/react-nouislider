@@ -8,8 +8,7 @@
     "test": "npm run lint",
     "build": "mkdir -p dist && babel index.js --out-file dist/react-nouislider.common.js",
     "watch": "mkdir -p dist && babel index.js --watch --out-file dist/react-nouislider.common.js",
-    "dev": "webpack-dev-server --config webpack.example.config.js --hot --inline --no-info",
-    "prepublish": "NODE_ENV=production npm run build"
+    "dev": "webpack-dev-server --config webpack.example.config.js --hot --inline --no-info"
   },
   "repository": "algolia/react-nouislider",
   "keywords": [
